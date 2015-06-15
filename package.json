@@ -1,0 +1,28 @@
+{
+  "name": "json-include",
+  "version": "0.5.0",
+  "description": "Library that can execute including operations",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ludoblues/JSONInclude.git"
+  },
+  "keywords": [
+    "JSON",
+    "include",
+    "compare"
+  ],
+  "author": "Ludovic VUE",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ludoblues/JSONInclude/issues"
+  },
+  "homepage": "https://github.com/ludoblues/JSONInclude#readme",
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "mocha": "^2.2.5"
+  }
+}
