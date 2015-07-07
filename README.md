@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ludoblues/JSONInclude.svg?branch=master)](https://travis-ci.org/ludoblues/JSONInclude)
+
 # JSONInclude
 Able to determine if an entity contains all properties and values of another one
 
