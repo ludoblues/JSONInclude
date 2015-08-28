@@ -1,6 +1,6 @@
 {
   "name": "json-include",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "description": "Library that can execute including operations",
   "main": "index.js",
   "scripts": {
