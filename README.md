@@ -11,10 +11,10 @@ npm install json-include
 
 ## Methods
 
-**`JSONInclude.does(Model, Entity)`**
+**`JSONInclude.inspect(Model, Entity)`**
 
 Return true if Model contains every properties and values of Entity, whatever the order
 
-**`jsonInclude.haveTo(Model, Entity)`**
+**`jsonInclude.fullfill(Model, Entity)`**
 
 Complete Entity so it can contains every values of Model.
