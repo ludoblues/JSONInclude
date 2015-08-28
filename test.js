@@ -3,36 +3,36 @@
 var JSONInclude = require('./index');
 var expect = require('chai').expect;
 
-context('#does', function() {
-	describe('#does checks if B has all of A', function() {
+context('#JSONInclude', function() {
+	describe('#inspect', function() {
 	  it('should be able to compare array with one deep level', function() {
 	    var A = [ 'b' ];
 	    var B = [ 'a', 'b', 'c' ];
-	    expect(JSONInclude.does(A, B)).to.be.true;
+	    expect(JSONInclude.inspect(A, B)).to.be.true;
 
 	    var C = [ 'd' ];
 	    var D = [ 'a', 'b', 'c' ];
-	    expect(JSONInclude.does(C, D)).to.be.false;
+	    expect(JSONInclude.inspect(C, D)).to.be.false;
 	  });
 
 	  it('should be able to compare objects with one deep level', function() {
 	    var A = { name: 'rule' };
 	    var B = { key1: 'one', name: 'rule', key2: 'two' };
-	    expect(JSONInclude.does(A, B)).to.be.true;
+	    expect(JSONInclude.inspect(A, B)).to.be.true;
 
 	    var C = { name: 'rule' };
 	    var D = { key1: 'one', name: 'rules', key2: 'two' };
-	    expect(JSONInclude.does(C, D)).to.be.false;
+	    expect(JSONInclude.inspect(C, D)).to.be.false;
 	  });
 
 	  it('should be able to compare array containing one level deeep objects', function() {
 	    var A = [ { id: 'b' } ];
 	    var B = [ { id: 'a' }, { id: 'b' }, { id: 'c' } ];
-	    expect(JSONInclude.does(A, B)).to.be.true;
+	    expect(JSONInclude.inspect(A, B)).to.be.true;
 
 	    var C = [ { id: 'd' } ];
 	    var D = [ { id: 'a' }, { id: 'b' }, { id: 'c' } ];
-	    expect(JSONInclude.does(C, D)).to.be.false;
+	    expect(JSONInclude.inspect(C, D)).to.be.false;
 	  });
 
 	  it('should be able to compare objects with one deep level array', function() {
@@ -45,7 +45,7 @@ context('#does', function() {
 	      other: [ 'a', 'b' ],
 	      otherKey: [ 'a', 'b' ]
 	    };
-	    expect(JSONInclude.does(A, B)).to.be.true;
+	    expect(JSONInclude.inspect(A, B)).to.be.true;
 
 	    var C = {
 	      name: [ 'a', 'b' ],
@@ -56,7 +56,7 @@ context('#does', function() {
 	      other: [ 'b' ],
 	      otherKey: [ 'a', 'b' ]
 	    };
-	    expect(JSONInclude.does(C, D)).to.be.false;
+	    expect(JSONInclude.inspect(C, D)).to.be.false;
 	  });
 
 	  it('should be able to compare complexe objects', function() {
@@ -76,7 +76,7 @@ context('#does', function() {
 	      ],
 	      opt: 'some'
 	    };
-	    expect(JSONInclude.does(A, B)).to.be.true;
+	    expect(JSONInclude.inspect(A, B)).to.be.true;
 
 	    var C = {
 	      name: 'test',
@@ -94,7 +94,7 @@ context('#does', function() {
 	      ],
 	      opt: 'some'
 	    };
-	    expect(JSONInclude.does(C, D)).to.be.false;
+	    expect(JSONInclude.inspect(C, D)).to.be.false;
 	  });
 
 	  it('should be able to compare 3 deep level complexe objects', function() {
@@ -108,7 +108,7 @@ context('#does', function() {
 	        { type: 'tag', id: 'c', more: [ 'totoo' ] }, { type: 'tag', id: 'c', more: [ 'totoo' ] },
 	      ],
 	    };
-	    expect(JSONInclude.does(A, B)).to.be.true;
+	    expect(JSONInclude.inspect(A, B)).to.be.true;
 
 	    var C = {
 	      tags: [
@@ -120,7 +120,7 @@ context('#does', function() {
 	        { type: 'tag', id: 'c', more: { toto: 'tata' } },
 	      ],
 	    };
-	    expect(JSONInclude.does(C, D)).to.be.true;
+	    expect(JSONInclude.inspect(C, D)).to.be.true;
 	  });
 
 	  it('should be able to compare exreme complexe objects', function() {
@@ -137,7 +137,7 @@ context('#does', function() {
 	      ],
 	      other: 'ok'
 	    };
-	    expect(JSONInclude.does(A, B)).to.be.true;
+	    expect(JSONInclude.inspect(A, B)).to.be.true;
 
 	    var C = {
 	      name: 'complexe',
@@ -152,7 +152,50 @@ context('#does', function() {
 	      ],
 	      other: 'ok'
 	    };
-	    expect(JSONInclude.does(C, D)).to.be.false;
+	    expect(JSONInclude.inspect(C, D)).to.be.false;
 	  });
+	});
+
+	describe('#fullfill', function() {
+		it('should add the missing item', function() {
+			var A = [ 'a', 'b', 'c' ];
+			var B = [ 'a', 'b' ];
+
+			JSONInclude.fullfill(A, B);
+
+			expect(B.length).to.be.equal(A.length);
+			expect(A).to.be.eql([ 'a', 'b', 'c' ]);
+			expect(B).to.be.eql([ 'a', 'b', 'c' ]);
+		});
+
+		it('should add the missing item', function() {
+			var a = { name: 'toto', age: 14 };
+			var b = { name: 'toto' };
+
+			JSONInclude.fullfill(a, b);
+
+			expect(a).to.be.eql({ name: 'toto', age: 14 });
+			expect(b).to.be.eql({ name: 'toto', age: 14 });
+		});
+
+		it('should add the missig item', function() {
+			var a = { name: 'toto', age: 14, cars: [ 'class A', 'CLA' ] };
+			var b = { name: 'toto' };
+
+			JSONInclude.fullfill(a, b);
+
+			expect(a).to.be.eql({ name: 'toto', age: 14, cars: [ 'class A', 'CLA' ] });
+			expect(b).to.be.eql({ name: 'toto', age: 14, cars: [ 'class A', 'CLA' ] });
+		});
+
+		it('should add the missig item', function() {
+			var a = { name: 'toto', age: 14, cars: [ 'class A', 'CLA' ] };
+			var b = { name: 'toto', cars: [ 'Clio' ] };
+
+			JSONInclude.fullfill(a, b);
+
+			expect(a).to.be.eql({ name: 'toto', age: 14, cars: [ 'class A', 'CLA' ] });
+			expect(b).to.be.eql({ name: 'toto', age: 14, cars: [ 'Clio', 'class A', 'CLA' ] });
+		});
 	});
 });
